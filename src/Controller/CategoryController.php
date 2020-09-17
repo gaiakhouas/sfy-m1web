@@ -43,7 +43,6 @@ class CategoryController extends AbstractController
 		;
 		//dd($subcategories);
 
-
 		/*
 			envoi de données à la vue
 				utilisation du second paramètre de render sous forme de tableau associatif
@@ -60,7 +59,14 @@ class CategoryController extends AbstractController
 	*/
 	public function subcategory(string $categorySlug, string $subcategorySlug):Response
 	{
-		return $this->render('category/subcategory.html.twig');
+		// récupération de la sous-catégorie dans la base
+		$subcategory = $this->categoryRepository->findOneBy([
+			'slug' =>$subcategorySlug
+		]);
+
+		return $this->render('category/subcategory.html.twig', [
+			'subcategory' => $subcategory
+		]);
 	}
 }
 

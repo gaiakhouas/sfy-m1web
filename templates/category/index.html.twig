@@ -8,7 +8,7 @@
 		{# subcategories est une clé envoyée par le contrôleur #}
 		{% for subcategory in subcategories %}
 			<div class="col-sm-4 bg-dark p-3 text-center">
-				<a href="#" class="text-light h3">{{ subcategory.name | title }}</a>
+				<a href="{{ url('category.subcategory', { categorySlug: category.slug, subcategorySlug: subcategory.slug } ) }}" class="text-light h3">{{ subcategory.name | title }}</a>
 			</div>
 		{% endfor %}
 	</div>
