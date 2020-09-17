@@ -23,14 +23,22 @@ class CategoryFixtures extends Fixture
 				->setSlug( $slugger->slug($main) )
 			;
 
+			// méthode persist de doctrine : équivaut à insert into
+			$manager->persist($mainCategory);
+
 			// création des sous-catégories
 			foreach($sub as $subcategory){
-
+				$subcat = new Category();
+				$subcat
+					->setName($subcategory)
+					->setSlug( $slugger->slug($subcategory) )
+					->setParent( $mainCategory )
+				;
+				$manager->persist($subcat);
 			}
 		}
-        // $product = new Product();
-        // $manager->persist($product);
-
+	  
+		// méthode flush de doctrine qui permet d'exécuter les requêtes
         $manager->flush();
     }
 }

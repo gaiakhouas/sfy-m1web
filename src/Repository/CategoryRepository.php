@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,6 +19,47 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
+
+	// récupération de sous-catégories à partir du slug d'une catégorie principale
+	public function getSubCategoriesByMainCategorySlug(string $slugCategory):Query
+	{
+		/*
+			DQL : Doctrine Query Language
+				createQueryBuilder : définition d'un alias pour l'entité
+				select : sélection des propriétés de l'entité
+				where : première condition
+				andWhere : condition supplémentaire
+				setMaxResults : équivaut à LIMIT
+				join: 2 paramètres
+					cibler une propriété relationnelle de l'entité
+					alias de la jointure
+				utilisation de getQuery en dernière position
+			paramètres
+				précéder les paramètres par :
+				donner une valeur dans setParameters
+		*/
+		$query = $this->createQueryBuilder('category')
+			->join('category.parent', 'parent')
+			->where('parent.slug = :slug')
+			->setParameters([
+				'slug' => $slugCategory
+			])
+
+			/*->select('category.name, category.slug')
+			->where('category.name LIKE :name')
+			->setParameters([
+				'name' => 'b%'
+			])
+			->setMaxResults(2)*/
+			
+			->getQuery()
+		;
+
+		return $query;
+	}
+
+
+
 
     // /**
     //  * @return Category[] Returns an array of Category objects
