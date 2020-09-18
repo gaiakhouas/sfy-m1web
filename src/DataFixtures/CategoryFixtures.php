@@ -35,6 +35,14 @@ class CategoryFixtures extends Fixture
 					->setParent( $mainCategory )
 				;
 				$manager->persist($subcat);
+
+				/*
+					stocker en mémoire les entités pour y accéder dans d'autres fixtures
+					addReference : 2 paramètres
+						identifiant unique de la référence
+						entité liée à la référence
+				*/
+				$this->addReference("subcategory$subcategory", $subcat);
 			}
 		}
 	  
