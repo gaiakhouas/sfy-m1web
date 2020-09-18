@@ -32,12 +32,24 @@
 		</ul>
 
 		<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-			<li class="nav-item">
-				<a class="nav-link" href="{{ url('security.login') }}">Connexion</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ url('registration.register') }}">Enregistrement</a>
-			</li>
+			{#
+				is_granted : permet de tester
+					l'état de connexion de l'utilisateur
+					le rôle de l'utilisateur (ROLE_USER par défaut) 
+			#}
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url('security.logout') }}">Déconnexion</a>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url('security.login') }}">Connexion</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url('registration.register') }}">Enregistrement</a>
+				</li>
+
+			{% endif %}
 		</ul>
 
 		<form class="form-inline my-2 my-lg-0">

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,6 +37,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Gif::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $gifs;
+
+    public function __construct()
+    {
+        $this->gifs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -112,5 +124,36 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Gif[]
+     */
+    public function getGifs(): Collection
+    {
+        return $this->gifs;
+    }
+
+    public function addGif(Gif $gif): self
+    {
+        if (!$this->gifs->contains($gif)) {
+            $this->gifs[] = $gif;
+            $gif->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGif(Gif $gif): self
+    {
+        if ($this->gifs->contains($gif)) {
+            $this->gifs->removeElement($gif);
+            // set the owning side to null (unless already changed)
+            if ($gif->getUser() === $this) {
+                $gif->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -97,7 +97,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         }
 
 		// route d'atterrissage après la connexion
-        return new RedirectResponse($this->urlGenerator->generate('homepage.index'));
+        return new RedirectResponse($this->urlGenerator->generate('profile.homepage.index'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

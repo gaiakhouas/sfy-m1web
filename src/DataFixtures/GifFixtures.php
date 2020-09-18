@@ -19,6 +19,7 @@ class GifFixtures extends Fixture implements DependentFixtureInterface
 	{
 		return [
 			CategoryFixtures::class,
+			UserFixtures::class,
 		];
 	}
 
@@ -34,6 +35,7 @@ class GifFixtures extends Fixture implements DependentFixtureInterface
 					->setSource($slugger->slug($subcategory)->lower() . '.gif')
 					->setSlug( $slugger->slug($subcategory)->lower() )
 					->setCategory( $this->getReference("subcategory$subcategory") )
+					->setUser( $this->getReference('user') )
 				;
 
 				$manager->persist($gif);
