@@ -9,8 +9,8 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class CategoryFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
-    {
+	public function load(ObjectManager $manager)
+	{
 		$slugger = new AsciiSlugger();
 		foreach(AbstractDataFixtures::CATEGORIES as $main => $sub)
 		{
@@ -47,6 +47,6 @@ class CategoryFixtures extends Fixture
 		}
 	  
 		// méthode flush de doctrine qui permet d'exécuter les requêtes
-        $manager->flush();
-    }
+		$manager->flush();
+	}
 }
